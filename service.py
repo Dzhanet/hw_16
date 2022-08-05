@@ -1,7 +1,7 @@
 import json
 from models import *
 from config import db
-from flask_sqlalchemy import SQLAlchemy
+
 
 def insert_data_user(input_data):
     """JSON -> dict"""
@@ -47,17 +47,21 @@ def insert_data_offer(input_data):
 
     db.session.commit()
 
-db.drop_all()
-db.create_all() #создаем таблицы
 
-with open("data/user.json") as file:
-    data = json.load(file)
-    insert_data_user(data)
+def get_all_users():
+    """получает всех пользователей"""
 
-with open("data/offer.json") as file:
-    data = json.load(file)
-    insert_data_order(data)
+    result = []
+    for item in User.query.all():
+        result.append(item.to_dict())
 
-with open("data/order.json") as file:
-    data = json.load(file)
-    insert_data_offer(data)
+    return result
+
+def get_all_orders():
+    """получает все заказы в виде словаря"""
+
+    result = []
+    for item in Order.query.all():
+        result.append(item.to_dict())
+
+    return result
