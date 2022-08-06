@@ -1,7 +1,6 @@
 import json
 from config import app
-from service import get_all_users, get_all_orders
-
+from service import get_all_users, get_all_orders, get_all_offers, init_db
 
 
 @app.route("/users/", methods=['GET'])
@@ -19,18 +18,30 @@ def get_one_users(user_id):
 
 @app.route("/orders/", methods=['GET'])
 def get_orders():
-    return json.dumps(get_all_orders()), 200
+    return json.dumps(get_all_orders(),ensure_ascii=False), 200
 
 @app.route("/orders/<int:order_id>", methods=['GET'])
 def get_one_order(order_id):
     data = get_all_orders()
     for item in data:
         if item.get("id") == order_id:
-            return json.dumps(item), 200
+            return json.dumps(item,ensure_ascii=False), 200
 
     return 'Не вижу такой заказ, у меня лапки'
 
+@app.route("/offers/", methods=['GET'])
+def get_offers():
+    return json.dumps(get_all_offers(),ensure_ascii=False), 200
 
+@app.route("/offers/<int:offer_id>", methods=['GET'])
+def get_one_offer(offer_id):
+    data = get_all_offers()
+    for item in data:
+        if item.get("id") == offer_id:
+            return json.dumps(item), 200
+
+    return 'Не вижу предложение, у меня лапки'
 
 if __name__ == '__main__':
+    init_db()
     app.run(debug=True)

@@ -65,3 +65,29 @@ def get_all_orders():
         result.append(item.to_dict())
 
     return result
+
+def get_all_offers():
+    """получает все предложения в виде словаря"""
+
+    result = []
+    for item in Offer.query.all():
+        result.append(item.to_dict())
+
+    return result
+
+def init_db():
+    db.drop_all()  # удаляем все таблицы
+    db.create_all()  # создаем их заново и отправляем данные из файлов
+
+    with open("data/user.json") as file:
+        data = json.load(file)
+        insert_data_user(data)
+
+    with open("data/order.json", encoding='utf-8') as file:
+        data = json.load(file)
+        insert_data_order(data)
+
+    with open("data/offer.json") as file:
+        data = json.load(file)
+        insert_data_offer(data)
+
