@@ -91,3 +91,25 @@ def init_db():
         data = json.load(file)
         insert_data_offer(data)
 
+def update_universal(model,user_id,values):
+    """обновляет данные, подходит для всех вьюшек"""
+
+    try:
+
+        db.session.query(model).filter(model.id == user_id).update(values)
+        db.session.commit()
+
+    except Exception:
+        return {}
+
+def delete_universal(model,user_id):
+    """удаляет данные, подходит для всех вьюшек"""
+
+    try:
+
+        db.session.query(model).filter(model.id == user_id).delete()
+        db.session.commit()
+
+    except Exception:
+        return {}
+
