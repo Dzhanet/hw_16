@@ -4,7 +4,7 @@ from config import db
 
 
 def insert_data_user(input_data):
-    """JSON -> dict"""
+    """вставляет данные в базу построчно, JSON -> dict"""
 
     for row in input_data:
         db.session.add(User(
@@ -20,7 +20,7 @@ def insert_data_user(input_data):
 
 
 def insert_data_order(input_data):
-    """JSON -> dict"""
+    """вставляет данные в базу построчно, JSON -> dict"""
 
     for row in input_data:
         db.session.add(Order(
@@ -37,7 +37,7 @@ def insert_data_order(input_data):
     db.session.commit()
 
 def insert_data_offer(input_data):
-    """JSON -> dict"""
+    """вставляет данные в базу построчно, JSON -> dict"""
 
     for row in input_data:
         db.session.add(Offer(
@@ -113,3 +113,58 @@ def delete_universal(model,user_id):
     except Exception:
         return {}
 
+def insert_data_universal(model, input_data):
+    """универсальная функция для добавления данных из джейсон в базу"""
+
+    for row in input_data:
+        db.session.add(
+            model(**row)
+        )
+
+    db.session.commit()
+
+def create_user(user):
+    """добавляет в базу одного пользователя, для метода POST"""
+
+    new_user_obj = User(
+        first_name=user['first_name'],
+        last_name=user['last_name'],
+        age=user['age'],
+        email=user['email'],
+        role=user['role'],
+        phone=user['phone']
+    )
+    db.session.add(new_user_obj)
+    db.session.commit()
+    db.session.close()
+    return "Пользователь добавлен в базу"
+
+def create_order(order):
+    """добавляет в базу один заказ, для метода POST"""
+
+    new_order_obj = Order(
+        name=order['name'],
+        description=order['description'],
+        start_date=order['start_date'],
+        end_date=order['end_date'],
+        address=order['address'],
+        price=order['price'],
+        customer_id=order['customer_id'],
+        executor_id=order['executor_id']
+    )
+    db.session.add(new_order_obj)
+    db.session.commit()
+    db.session.close()
+    return "Заказ добавлен в базу"
+
+def create_offer(offer):
+    """добавляет в базу одно предложение, для метода POST"""
+
+    new_offer_obj = Offer(
+        order_id=offer['order_id'],
+        executor_id=offer['executor_id']
+    )
+    db.session.add(new_offer_obj)
+    db.session.commit()
+    db.session.close()
+    return "Заказ добавлен в базу"

@@ -2,7 +2,7 @@ import json
 from config import app
 from models import User, Order, Offer
 from service import get_all_users, get_all_orders, get_all_offers, init_db, insert_data_user, update_universal, \
-    insert_data_order, insert_data_offer, delete_universal
+    insert_data_order, insert_data_offer, delete_universal, create_user, create_order, create_offer
 from flask import request
 
 
@@ -12,9 +12,11 @@ def get_users():
         return json.dumps(get_all_users()), 200
     elif request.method == 'POST':
         if isinstance(request.json, list):
-            insert_data_user(request.json)
+            user = json.loads(request.data)
+            create_user(user)
         elif isinstance(request.json, dict):
-            insert_data_user(request.json)
+            user = json.loads(request.data)
+            create_user(user)
         else:
             print('Непонятный типа данных')
 
@@ -32,7 +34,7 @@ def get_one_users(user_id):
     elif request.method == 'DELETE':
         delete_universal(User, user_id)
 
-    return 'Не знаю такого пользователя, у меня лапки'
+
 
 @app.route("/orders/", methods=['GET', 'POST'])
 def get_orders():
@@ -40,9 +42,13 @@ def get_orders():
         return json.dumps(get_all_orders(),ensure_ascii=False), 200
     elif request.method == 'POST':
         if isinstance(request.json, list):
-            insert_data_order(request.json)
+            order = json.loads(request.data)
+            create_order(order)
         elif isinstance(request.json, dict):
-            insert_data_order(request.json)
+            order = json.loads(request.data)
+            create_order(order)
+        else:
+            print('Непонятный типа данных')
 
 @app.route("/orders/<int:user_id>", methods=['GET', 'PUT', 'DELETE'])
 def get_one_order(user_id):
@@ -58,7 +64,7 @@ def get_one_order(user_id):
     elif request.method == 'DELETE':
         delete_universal(Order, user_id)
 
-    return 'Не вижу такой заказ, у меня лапки'
+
 
 @app.route("/offers/", methods=['GET', 'POST'])
 def get_offers():
@@ -66,9 +72,13 @@ def get_offers():
         return json.dumps(get_all_offers(),ensure_ascii=False), 200
     elif request.method == 'POST':
         if isinstance(request.json, list):
-            insert_data_offer(request.json)
+            offer = json.loads(request.data)
+            create_offer(offer)
         elif isinstance(request.json, dict):
-            insert_data_offer(request.json)
+            offer = json.loads(request.data)
+            create_offer(offer)
+        else:
+            print('Непонятный типа данных')
 
 @app.route("/offers/<int:user_id>", methods=['GET', 'PUT', 'DELETE'])
 def get_one_offer(user_id):
@@ -83,7 +93,7 @@ def get_one_offer(user_id):
     elif request.method == 'DELETE':
         delete_universal(Offer, user_id)
 
-    return 'Не вижу предложение, у меня лапки'
+
 
 if __name__ == '__main__':
     init_db()
