@@ -14,9 +14,11 @@ def get_users():
         if isinstance(request.json, list):
             user = json.loads(request.data)
             create_user(user)
+            return "Данные записаны", 200
         elif isinstance(request.json, dict):
             user = json.loads(request.data)
             create_user(user)
+            return "Данные записаны", 200
         else:
             print('Непонятный типа данных')
 
@@ -30,9 +32,11 @@ def get_one_users(user_id):
 
     elif request.method == 'PUT':
         update_universal(User, user_id, request.json)
+        return "Данные обновлены", 200
 
     elif request.method == 'DELETE':
         delete_universal(User, user_id)
+        return "Данные удалены", 200
 
 
 
@@ -44,9 +48,11 @@ def get_orders():
         if isinstance(request.json, list):
             order = json.loads(request.data)
             create_order(order)
+            return "Данные записаны", 200
         elif isinstance(request.json, dict):
             order = json.loads(request.data)
             create_order(order)
+            return "Данные записаны", 200
         else:
             print('Непонятный типа данных')
 
@@ -60,9 +66,11 @@ def get_one_order(user_id):
 
     elif request.method == 'PUT':
         update_universal(Order, user_id, request.json)
+        return "Данные обновлены", 200
 
     elif request.method == 'DELETE':
         delete_universal(Order, user_id)
+        return "Данные удалены", 200
 
 
 
@@ -74,9 +82,11 @@ def get_offers():
         if isinstance(request.json, list):
             offer = json.loads(request.data)
             create_offer(offer)
+            return "Данные записаны", 200
         elif isinstance(request.json, dict):
             offer = json.loads(request.data)
             create_offer(offer)
+            return "Данные записаны", 200
         else:
             print('Непонятный типа данных')
 
@@ -89,9 +99,11 @@ def get_one_offer(user_id):
                 return json.dumps(item), 200
     elif request.method == 'PUT':
         update_universal(Offer, user_id, request.json)
+        return "Данные обновлены", 200
 
     elif request.method == 'DELETE':
         delete_universal(Offer, user_id)
+        return "Данные удалены", 200
 
 
 
